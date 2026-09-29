@@ -12,6 +12,7 @@ import { useStore } from "@/lib/store";
 import { useCart } from "@/lib/useCart";
 import { SummaryRows } from "../SummaryRows";
 import { Button, ButtonLink } from "../ui/Button";
+import { PhotoSlot } from "../ui/PhotoSlot";
 import { Field } from "./Field";
 
 const DEMO = process.env.NODE_ENV !== "production" || process.env.NEXT_PUBLIC_CHECKOUT_DEMO === "1";
@@ -224,7 +225,8 @@ export function CheckoutForm() {
             <h2 className="mb-1 text-[18px] font-semibold">Votre commande · {totals.count} article{totals.count > 1 ? "s" : ""}</h2>
             {lines.map((l) => (
               <div key={l.key} className="flex items-center gap-3 text-[14px]">
-                <span className="relative h-11 w-11 flex-none rounded-md" style={{ background: l.tone }} aria-hidden>
+                <span className="relative h-11 w-11 flex-none" aria-hidden>
+                  <PhotoSlot label={l.name} src={l.image} position={l.imagePos} sizes="44px" tone={l.tone} className="absolute inset-0 rounded-md" />
                   <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-md bg-ink px-[5px] text-[11px] font-semibold text-white">{l.qty}</span>
                 </span>
                 <span className="min-w-0 flex-1 leading-tight"><span className="sr-only">{l.qty} × </span>{l.name}</span>

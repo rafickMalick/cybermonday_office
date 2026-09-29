@@ -37,7 +37,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       <BundleSection currentId={p.id} />
 
       <section className="container-page pt-[clamp(48px,7vw,80px)]">
-        <h2 className="h-3 mb-6">Pourquoi ce choix pour vos équipes</h2>
+        <h2 className="heading-3 mb-6">Pourquoi ce choix pour vos équipes</h2>
         <ol className="m-0 grid list-none gap-3 p-0 [grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))]">
           {p.benefits.map((text, i) => (
             <li key={i} className="card flex flex-col gap-2.5 p-5">

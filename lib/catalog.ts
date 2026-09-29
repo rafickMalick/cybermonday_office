@@ -32,6 +32,28 @@ export const TONES: Record<CategoryId, string> = {
   eclairage: "var(--color-accent-100)",
 };
 
+/** Photos libres de droits (Unsplash), stockées dans /public/images/<id>.jpg. */
+export function productImage(p: Pick<Product, "id">): string {
+  return `/images/${p.id}.jpg`;
+}
+/** Cadrage (object-position) des photos dont le sujet n'est pas centré. */
+export const IMAGE_POS: Partial<Record<string, string>> = {
+  axis: "50% 55%", talk: "50% 25%", flex2: "50% 45%", dock12: "50% 60%", k2: "50% 60%", cam4k: "50% 75%", lumen: "50% 15%",
+};
+export function imagePos(p: Pick<Product, "id">): string {
+  return IMAGE_POS[p.id] ?? "center";
+}
+/** Visuels de l'accueil et vue « En situation » des fiches. */
+export const SITE_IMAGES = {
+  hero: "/images/hero.jpg",
+  pack: "/images/pack.jpg",
+  situation: "/images/situation.jpg",
+} as const;
+/** Produit dont la photo illustre la catégorie (tuiles du catalogue). */
+export const CATEGORY_COVER: Record<CategoryId, string> = {
+  bureaux: "lift", chaises: "axis", ecrans: "view27", docks: "dock12", saisie: "k2", visio: "talk", eclairage: "lumen",
+};
+
 export interface Product {
   id: string;
   /** Segment d'URL : /produit/[slug]. */

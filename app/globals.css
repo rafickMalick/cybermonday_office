@@ -67,9 +67,9 @@ button:disabled { cursor: not-allowed; }
 @layer components {
   /* Titres et sur-titres du design */
   .eyebrow { @apply text-[12px] font-semibold uppercase tracking-label; }
-  .h-hero { font-size: clamp(40px, 6vw, 72px); line-height: 1.02; @apply font-semibold tracking-tightish; }
-  .h-2 { font-size: clamp(28px, 3.4vw, 40px); @apply font-semibold tracking-tightish; }
-  .h-3 { font-size: clamp(24px, 3vw, 34px); @apply font-semibold tracking-tightish; }
+  .heading-hero { font-size: clamp(40px, 6vw, 72px); line-height: 1.02; @apply font-semibold tracking-tightish; }
+  .heading-2 { font-size: clamp(28px, 3.4vw, 40px); @apply font-semibold tracking-tightish; }
+  .heading-3 { font-size: clamp(24px, 3vw, 34px); @apply font-semibold tracking-tightish; }
   .page-x { padding-left: clamp(16px, 4vw, 40px); padding-right: clamp(16px, 4vw, 40px); }
   .section-y { padding-top: clamp(48px, 7vw, 88px); }
   .container-page { @apply mx-auto w-full max-w-page page-x; }

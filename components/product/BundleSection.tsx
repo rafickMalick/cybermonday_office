@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { AddBundleCta } from "../cart/AddBundleButton";
 import { Price, TaxLabel } from "../PriceDisplay";
-import { BUNDLE_DISCOUNT, BUNDLE_IDS, TONES, mustProduct } from "@/lib/catalog";
+import { PhotoSlot } from "../ui/PhotoSlot";
+import { BUNDLE_DISCOUNT, BUNDLE_IDS, TONES, imagePos, mustProduct, productImage } from "@/lib/catalog";
 import { bundlePrices } from "@/lib/pricing";
 
 const PCT = `−${Math.round(BUNDLE_DISCOUNT * 100)} %`;
@@ -15,7 +16,7 @@ export function BundleSection({ currentId }: { currentId: string }) {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div className="flex flex-col gap-2">
             <div className="eyebrow text-accent-700">COMPLETE YOUR WORKSPACE</div>
-            <h2 id="bundle-title" className="h-3">Complétez le poste, {PCT} sur le pack</h2>
+            <h2 id="bundle-title" className="heading-3">Complétez le poste, {PCT} sur le pack</h2>
           </div>
           <span className="text-[14px] text-n-700">Livraison groupée · installation en une intervention</span>
         </div>
@@ -30,9 +31,9 @@ export function BundleSection({ currentId }: { currentId: string }) {
                   aria-current={current ? "page" : undefined}
                   className={`flex h-full flex-col overflow-hidden rounded-sm border bg-n-100 ${current ? "border-ink" : "border-n-300 hover:border-n-500"}`}
                 >
-                  <span className="stripes relative block aspect-square w-full" style={{ backgroundColor: TONES[p.cat] }} aria-hidden>
+                  <PhotoSlot label={p.name} src={productImage(p)} position={imagePos(p)} sizes="(min-width:768px) 16vw, 45vw" tone={TONES[p.cat]} className="aspect-square w-full">
                     {current && <span className="absolute left-2 top-2 rounded-sm bg-ink px-1.5 py-[3px] text-[11px] font-semibold text-white">Vous consultez</span>}
-                  </span>
+                  </PhotoSlot>
                   <span className="flex flex-col gap-[3px] p-3">
                     <span className="text-[12px] text-n-700">{p.type}</span>
                     <span className="text-[14px] font-semibold leading-tight">{p.name}</span>

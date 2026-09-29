@@ -1,0 +1,4 @@
+{
+  "/(shop)/cyber-deals/page": "app/(shop)/cyber-deals/page.js",
+  "/(shop)/page": "app/(shop)/page.js"
+}

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Clock, Users } from "lucide-react";
-import { BADGES, BOUGHT, TONES, type Product } from "@/lib/catalog";
+import { BADGES, BOUGHT, SITE_IMAGES, TONES, imagePos, productImage, type Product } from "@/lib/catalog";
 import { eur, eur2, pctLabel } from "@/lib/format";
 import { lineTotalWithTier, perWorkday, soldPercent } from "@/lib/pricing";
 import { useLive } from "@/lib/hooks";
@@ -17,6 +17,8 @@ import { Button } from "../ui/Button";
 import { PhotoSlot } from "../ui/PhotoSlot";
 
 const VIEWS = ["Vue de face", "Détail", "En situation", "Dimensions"];
+/** Par vue : la photo du produit, un gros plan, la photo d'ambiance ; « Dimensions » affiche la fiche technique. */
+const VIEW_ZOOM = [1, 1.9, 1, 1];
 const QTY_CHOICES = [1, 3, 5, 10];
 
 /** Partie haute de la fiche : galerie, prix, Flash Deal, choix de quantité, CTA, barre d'achat mobile. */
@@ -36,7 +38,26 @@ export function ProductDetail({ product: p }: { product: Product }) {
       <div className="grid items-start gap-[clamp(24px,4vw,56px)] md:[grid-template-columns:minmax(0,1.05fr)_minmax(0,1fr)]">
         {/* Galerie */}
         <div className="flex flex-col gap-3 md:sticky md:top-24">
-          <PhotoSlot label={`Photo · ${p.type} · ${VIEWS[view]}`} tone={TONES[p.cat]} className="aspect-square rounded-lg">
+          <PhotoSlot
+            label={`${p.name} · ${VIEWS[view]}`}
+            src={view === 3 ? undefined : view === 2 ? SITE_IMAGES.situation : productImage(p)}
+            position={view === 2 ? "center" : imagePos(p)}
+            zoom={VIEW_ZOOM[view]}
+            priority
+            sizes="(min-width:768px) 50vw, 100vw"
+            tone={TONES[p.cat]}
+            className="aspect-square rounded-lg"
+          >
+            {view === 3 && (
+              <dl className="absolute inset-0 m-0 flex flex-col justify-center gap-2.5 p-6 text-[14px]">
+                {p.specs.map((s) => (
+                  <div key={s.k} className="flex justify-between gap-4 border-b border-ink/15 pb-2">
+                    <dt className="text-n-700">{s.k}</dt>
+                    <dd className="m-0 text-right font-semibold">{s.v}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
             <span className="absolute left-4 top-4 rounded-sm bg-accent px-2.5 py-[5px] text-[14px] font-semibold text-white">{pctLabel(p.ht, p.was)}</span>
           </PhotoSlot>
           <div className="grid grid-cols-4 gap-2.5">
@@ -47,10 +68,14 @@ export function ProductDetail({ product: p }: { product: Product }) {
                 aria-label={v}
                 aria-pressed={i === view}
                 onClick={() => setView(i)}
-                className={`aspect-square rounded-sm border-2 text-[10px] text-n-700 ${i === view ? "border-ink" : "border-transparent"}`}
+                className={`relative aspect-square overflow-hidden rounded-sm border-2 text-[11px] font-semibold text-n-800 ${i === view ? "border-ink" : "border-transparent"}`}
                 style={{ background: TONES[p.cat] }}
               >
-                {v.split(" ")[0]}
+                {i === 3 ? (
+                  <span className="absolute inset-0 flex items-center justify-center">Fiche</span>
+                ) : (
+                  <PhotoSlot label={v} src={i === 2 ? SITE_IMAGES.situation : productImage(p)} position={i === 2 ? "center" : imagePos(p)} zoom={VIEW_ZOOM[i]} sizes="120px" tone={TONES[p.cat]} className="absolute inset-0" />
+                )}
               </button>
             ))}
           </div>

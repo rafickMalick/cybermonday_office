@@ -1,7 +1,8 @@
 "use client";
 
 import type { Product } from "@/lib/catalog";
-import { TONES } from "@/lib/catalog";
+import { PhotoSlot } from "../ui/PhotoSlot";
+import { TONES, imagePos, productImage } from "@/lib/catalog";
 import { pctLabel } from "@/lib/format";
 import { useStore } from "@/lib/store";
 import { PriceDisplay } from "../PriceDisplay";
@@ -14,7 +15,7 @@ export function CrossSell({ products, compact = false }: { products: Product[]; 
     <div className="flex flex-col gap-2">
       {products.map((p) => (
         <div key={p.id} className={`flex items-center gap-3 rounded-md border border-n-300 bg-n-100 ${compact ? "p-2.5" : "p-3.5"}`}>
-          <span className={`flex-none rounded-md ${compact ? "h-11 w-11" : "h-14 w-14"}`} style={{ background: TONES[p.cat] }} aria-hidden />
+          <PhotoSlot label={p.name} src={productImage(p)} position={imagePos(p)} sizes="56px" tone={TONES[p.cat]} className={`flex-none rounded-md ${compact ? "h-11 w-11" : "h-14 w-14"}`} />
           <div className="flex min-w-0 flex-1 flex-col">
             <span className={`${compact ? "text-[13px]" : "text-[14px]"} font-semibold leading-tight`}>{p.name}</span>
             <span className={`${compact ? "text-[12px]" : "text-[13px]"} flex flex-wrap items-baseline gap-x-1.5 tabular-nums`}>

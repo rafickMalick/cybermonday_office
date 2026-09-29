@@ -13,6 +13,7 @@ import { QtyStepper } from "../QtyStepper";
 import { TierProgress } from "../TierProgress";
 import { Price } from "../PriceDisplay";
 import { Button } from "../ui/Button";
+import { PhotoSlot } from "../ui/PhotoSlot";
 import { BundleUpsell } from "./BundleUpsell";
 import { CrossSell } from "./CrossSell";
 
@@ -87,7 +88,7 @@ export function CartDrawer() {
 
           {lines.map((l) => (
             <div key={l.key} className="flex items-start gap-3">
-              <span className="h-16 w-16 flex-none rounded-md" style={{ background: l.tone }} aria-hidden />
+              <PhotoSlot label={l.name} src={l.image} position={l.imagePos} sizes="64px" tone={l.tone} className="h-16 w-16 flex-none rounded-md" />
               <div className="flex min-w-0 flex-1 flex-col gap-2">
                 <div className="flex justify-between gap-2.5">
                   <span className="text-[14px] font-semibold leading-tight">{l.name}</span>

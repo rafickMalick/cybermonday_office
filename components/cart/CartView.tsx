@@ -14,6 +14,7 @@ import { QuoteButton } from "../QuoteButton";
 import { SummaryRows } from "../SummaryRows";
 import { TierProgress } from "../TierProgress";
 import { Button, ButtonLink } from "../ui/Button";
+import { PhotoSlot } from "../ui/PhotoSlot";
 import { BundleUpsell } from "./BundleUpsell";
 import { CrossSell } from "./CrossSell";
 
@@ -45,7 +46,9 @@ export function CartView() {
         <ul className="m-0 list-none border-t border-n-300 p-0">
           {lines.map((l) => (
             <li key={l.key} className="grid gap-4 border-b border-n-300 py-5 [grid-template-columns:clamp(72px,12vw,104px)_minmax(0,1fr)]">
-              <Link href={l.href} aria-label={l.name} className="stripes aspect-square rounded-sm" style={{ backgroundColor: l.tone }} />
+              <Link href={l.href} aria-label={l.name} className="relative block aspect-square">
+                <PhotoSlot label={l.name} src={l.image} position={l.imagePos} sizes="104px" tone={l.tone} className="absolute inset-0 rounded-sm" />
+              </Link>
               <div className="flex min-w-0 flex-col gap-3">
                 <div className="flex justify-between gap-3">
                   <div className="flex min-w-0 flex-col gap-[3px]">

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BADGES, BOUGHT, TONES, type Product } from "@/lib/catalog";
+import { BADGES, BOUGHT, TONES, imagePos, productImage, type Product } from "@/lib/catalog";
 import { eur } from "@/lib/format";
 import { pctLabel } from "@/lib/format";
 import { soldPercent } from "@/lib/pricing";
@@ -22,7 +22,7 @@ export function ProductCard({ product: p }: { product: Product }) {
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-md border border-n-300 bg-n-100 transition-[border-color,box-shadow] duration-200 hover:border-n-400 hover:shadow-[0_18px_40px_-24px_rgba(46,43,37,0.35)]">
       <Link href={href} className="relative block aspect-[4/3]" aria-label={`Voir ${p.name}`}>
-        <PhotoSlot label={`Photo · ${p.type}`} tone={TONES[p.cat]} className="absolute inset-0" />
+        <PhotoSlot label={`${p.name} · ${p.type}`} src={productImage(p)} position={imagePos(p)} sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw" tone={TONES[p.cat]} className="absolute inset-0" />
         <div className="absolute inset-x-3 top-3 flex flex-wrap gap-1.5">
           <Badge tone="accent" className="!text-[13px] !py-1">{pctLabel(p.ht, p.was)}</Badge>
           {badge && <Badge tone="teal">{badge}</Badge>}

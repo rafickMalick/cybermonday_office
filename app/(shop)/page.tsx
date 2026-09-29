@@ -8,7 +8,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { QuoteButton } from "@/components/QuoteButton";
 import { ButtonLink } from "@/components/ui/Button";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
-import { BUNDLE_DISCOUNT, CATEGORIES, FEATURED_IDS, LOGOS, PRODUCTS, REVIEWS, TIERS, TONES, mustProduct } from "@/lib/catalog";
+import { BUNDLE_DISCOUNT, CATEGORIES, FEATURED_IDS, LOGOS, PRODUCTS, REVIEWS, SITE_IMAGES, TIERS, TONES, CATEGORY_COVER, imagePos, mustProduct, productImage } from "@/lib/catalog";
 import { bundlePrices } from "@/lib/pricing";
 
 const TRUST = [
@@ -33,7 +33,7 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-page items-center gap-[clamp(32px,5vw,64px)] px-[clamp(16px,4vw,40px)] py-[clamp(40px,7vw,96px)] [grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))]">
           <div className="flex flex-col gap-7">
             <div className="text-[12px] font-semibold tracking-[.14em] text-accent-400">CYBER MONDAY · ÉDITION PRO 2026</div>
-            <h1 className="h-hero [text-wrap:balance]">L&apos;équipement de bureau pro, jusqu&apos;à −30 %.</h1>
+            <h1 className="heading-hero [text-wrap:balance]">L&apos;équipement de bureau pro, jusqu&apos;à −30 %.</h1>
             <p className="m-0 max-w-[540px] text-[clamp(16px,1.6vw,19px)] leading-[1.55] text-n-300 [text-wrap:pretty]">
               Bureaux assis-debout, sièges ergonomiques, écrans et visio. Prix HT affichés, facture immédiate et paiement à 30 jours pour les entreprises.
             </p>
@@ -48,7 +48,7 @@ export default function HomePage() {
               <QuoteButton variant="outline-light" size="lg">Devis pour une équipe</QuoteButton>
             </div>
           </div>
-          <PhotoSlot label="PHOTO · POSTE DE TRAVAIL COMPLET" tone="var(--color-neutral-800)" dark labelAt="top" className="aspect-[4/3.4] rounded-lg">
+          <PhotoSlot label="Poste de travail complet" src={SITE_IMAGES.hero} priority sizes="(min-width:1024px) 50vw, 100vw" position="50% 60%" tone="var(--color-neutral-800)" dark labelAt="top" className="aspect-[4/3.4] rounded-lg">
             <div className="absolute inset-x-4 bottom-4 flex max-w-[360px] flex-col gap-2.5 rounded-md bg-bg p-[18px] text-ink">
               <div className="flex items-center justify-between gap-2">
                 <span className="text-[11px] tracking-[.08em] text-n-700">COMPLETE YOUR WORKSPACE</span>
@@ -79,7 +79,7 @@ export default function HomePage() {
         <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
           <div className="flex flex-col gap-2.5">
             <div className="eyebrow text-accent-700">FLASH DEALS · <Countdown /></div>
-            <h2 className="h-2">Les références en vedette</h2>
+            <h2 className="heading-2">Les références en vedette</h2>
           </div>
           <ButtonLink href="/cyber-deals" variant="secondary" size="sm">Toutes les offres ({PRODUCTS.length})</ButtonLink>
         </div>
@@ -93,24 +93,26 @@ export default function HomePage() {
         <div className="grid overflow-hidden rounded-lg border border-n-300 bg-n-100 [grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))]">
           <div className="flex flex-col gap-[18px] p-[clamp(24px,4vw,48px)]">
             <div className="eyebrow text-accent-700">COMPLETE YOUR WORKSPACE</div>
-            <h2 className="h-2 [text-wrap:balance]">Un poste complet, prêt à travailler, {PCT} sur le pack.</h2>
+            <h2 className="heading-2 [text-wrap:balance]">Un poste complet, prêt à travailler, {PCT} sur le pack.</h2>
             <p className="m-0 max-w-[480px] text-[16px] leading-[1.55] text-n-700">
               Six références pensées pour fonctionner ensemble, livrées en une fois et installées sur site si vous le souhaitez.
             </p>
             <BundleItems />
           </div>
-          <PhotoSlot label="PHOTO · PACK POSTE COMPLET" tone="var(--color-surface)" labelAt="top" className="flex min-h-[320px] flex-col justify-end gap-4 p-[clamp(24px,4vw,48px)] !overflow-visible">
-            <div className="relative flex flex-col gap-1.5">
-              <span className="text-[14px] text-n-700">Prix séparés <s><Price ht={b.sum} /></s></span>
-              <div className="flex flex-wrap items-baseline gap-2.5">
-                <span className="text-[clamp(36px,4vw,48px)] font-semibold tracking-tightish"><Price ht={b.ht} /></span>
-                <span className="text-[14px] font-semibold text-n-700"><TaxLabel /></span>
+          <PhotoSlot label="Pack poste complet" src={SITE_IMAGES.pack} sizes="(min-width:1024px) 50vw, 100vw" position="50% 40%" tone="var(--color-surface)" labelAt="top" className="flex min-h-[320px] flex-col justify-end gap-4 p-[clamp(24px,4vw,48px)] !overflow-visible">
+            <div className="relative flex flex-col gap-4 self-start rounded-md bg-bg p-5 shadow-lg">
+              <div className="relative flex flex-col gap-1.5">
+                <span className="text-[14px] text-n-700">Prix séparés <s><Price ht={b.sum} /></s></span>
+                <div className="flex flex-wrap items-baseline gap-2.5">
+                  <span className="text-[clamp(36px,4vw,48px)] font-semibold tracking-tightish"><Price ht={b.ht} /></span>
+                  <span className="text-[14px] font-semibold text-n-700"><TaxLabel /></span>
+                </div>
+                <span className="text-[14px] font-semibold text-accent-700">Vous économisez <Price ht={b.sum - b.ht} /> par poste</span>
               </div>
-              <span className="text-[14px] font-semibold text-accent-700">Vous économisez <Price ht={b.sum - b.ht} /> par poste</span>
-            </div>
-            <div className="relative flex flex-wrap gap-2.5">
-              <AddBundleButton size="md">Ajouter le pack</AddBundleButton>
-              <ButtonLink href="/produit/lift-pro-160#bundle" variant="secondary">Voir le détail</ButtonLink>
+              <div className="relative flex flex-wrap gap-2.5">
+                <AddBundleButton size="md">Ajouter le pack</AddBundleButton>
+                <ButtonLink href="/produit/lift-pro-160#bundle" variant="secondary">Voir le détail</ButtonLink>
+              </div>
             </div>
           </PhotoSlot>
         </div>
@@ -118,14 +120,16 @@ export default function HomePage() {
 
       {/* Catalogue */}
       <section className={section}>
-        <h2 className="h-2 mb-6">Catalogue</h2>
-        <ul className="m-0 grid list-none gap-3 p-0 [grid-template-columns:repeat(auto-fill,minmax(min(100%,170px),1fr))]">
+        <h2 className="heading-2 mb-6">Catalogue</h2>
+        <ul className="m-0 grid list-none gap-3 p-0 [grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr))]">
           {cats.map((c) => {
             const from = Math.min(...PRODUCTS.filter((p) => p.cat === c.id).map((p) => p.ht));
             return (
               <li key={c.id}>
                 <Link href={`/cyber-deals?cat=${c.id}`} className="flex h-full flex-col overflow-hidden rounded-sm border border-n-300 bg-n-100 hover:border-ink">
-                  <span className="stripes block aspect-[4/3] w-full" style={{ backgroundColor: TONES[c.id as keyof typeof TONES] }} aria-hidden />
+                  {c.id === "all" ? null : (
+                    <PhotoSlot label={c.label} src={productImage(mustProduct(CATEGORY_COVER[c.id]))} position={imagePos(mustProduct(CATEGORY_COVER[c.id]))} sizes="(min-width:1024px) 15vw, 45vw" tone={TONES[c.id]} className="aspect-[4/3] w-full" />
+                  )}
                   <span className="flex flex-col gap-1 p-3.5">
                     <span className="text-[15px] font-semibold leading-tight">{c.label}</span>
                     <span className="text-[13px] text-n-700">dès <Price ht={from} /> <TaxLabel /></span>
@@ -143,7 +147,7 @@ export default function HomePage() {
           <div className="flex flex-wrap items-end justify-between gap-5">
             <div className="flex max-w-[620px] flex-col gap-3">
               <div className="eyebrow text-accent-400">REMISES SUR VOLUME</div>
-              <h2 className="h-2 [text-wrap:balance]">Plus vous équipez de postes, plus la remise augmente.</h2>
+              <h2 className="heading-2 [text-wrap:balance]">Plus vous équipez de postes, plus la remise augmente.</h2>
               <p className="m-0 text-[15px] leading-normal text-n-300">Cumulable avec les Cyber Deals. Calculée automatiquement dans le panier.</p>
             </div>
             <QuoteButton variant="outline-light" size="md">Plus de 10 postes : devis sous 24 h</QuoteButton>
@@ -163,7 +167,7 @@ export default function HomePage() {
       {/* Preuve sociale */}
       <section className="section-y container-page pb-[clamp(48px,7vw,88px)]">
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-          <h2 className="h-2">Ils équipent leurs équipes avec Établi</h2>
+          <h2 className="heading-2">Ils équipent leurs équipes avec Établi</h2>
           <span className="text-[14px] text-n-700">4 800 entreprises équipées · ★ 4,7 / 5 · 2 184 avis vérifiés</span>
         </div>
         <ul aria-label="Références clients (exemples)" className="m-0 mb-6 grid list-none border-y border-n-300 p-0 [grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr))]">

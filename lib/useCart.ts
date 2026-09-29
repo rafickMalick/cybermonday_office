@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { BUNDLE_NAME, BUNDLE_SUB, CROSS_SELL_IDS, TONES, getProduct, mustProduct } from "./catalog";
+import { BUNDLE_NAME, BUNDLE_SUB, CROSS_SELL_IDS, SITE_IMAGES, TONES, getProduct, imagePos, mustProduct, productImage } from "./catalog";
 import { bundlePrices, computeCart } from "./pricing";
 import { useStore } from "./store";
 
@@ -14,6 +14,8 @@ export interface CartLineView {
   unitHT: number;
   wasHT: number;
   tone: string;
+  image: string;
+  imagePos: string;
   isBundle: boolean;
   href: string;
   set: (qty: number) => void;
@@ -33,6 +35,7 @@ export function useCart() {
       const b = bundlePrices();
       lines.push({
         key: "bundle", name: BUNDLE_NAME, sub: BUNDLE_SUB, qty: bundleQty, unitHT: b.ht, wasHT: b.sum, tone: TONES.bureaux,
+        image: SITE_IMAGES.pack, imagePos: "center",
         isBundle: true, href: "/produit/lift-pro-160#bundle", set: (q) => setQty("bundle", q),
       });
     }
@@ -41,6 +44,7 @@ export function useCart() {
       if (!p) continue;
       lines.push({
         key: p.id, name: p.name, sub: p.type, qty: l.qty, unitHT: p.ht, wasHT: p.was, tone: TONES[p.cat],
+        image: productImage(p), imagePos: imagePos(p),
         isBundle: false, href: `/produit/${p.slug}`, set: (q) => setQty(p.id, q),
       });
     }
